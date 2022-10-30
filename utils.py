@@ -29,8 +29,8 @@ def calculate_gc_plot_data(df_all, margin):
     if df_all is None:
         return None
     data = CalculatedGCData()
-    print(df_all["k"].unique())
-    print(df_all["k"])
+    #print(df_all["k"].unique())
+    #print(df_all["k"])
     for i in df_all["k"].unique():
         df = df_all[df_all["k"] == i]
         if df is None or len(get_n_percent(df, margin).index) == 0:
@@ -38,7 +38,7 @@ def calculate_gc_plot_data(df_all, margin):
             continue
         data.kmers.append(i)
         df_head = get_n_percent(df, margin)  # get N percent with the highest bias
-        print("head is ", df_head)
+        #print("head is ", df_head)
         data.upper_gc.append(None if len(df_head.index) == 0 else round(df_head["GC_%"].mean(), 2))
         data.upper_biases.append(None if len(df_head.index) == 0 else round(df_head["strand_bias_%"].mean(), 2))
 
