@@ -1,10 +1,18 @@
+import os
 import re
 import sys
 
+from bokeh.embed import server_document
 from bokeh.io import curdoc
 from bokeh.layouts import column, row
-from bokeh.models import Dropdown, RadioButtonGroup, Slider, Div, Button
-
+from bokeh.models import Dropdown, RadioButtonGroup, Slider, Div, Button, Spacer
+from bokeh.plotting import figure
+from bokeh.server.server import Server
+from bokeh.themes import Theme
+from bokeh.util.browser import view
+from flask import Flask, render_template
+from tornado.ioloop import IOLoop
+from threading import Thread
 from plots import Plotter, AnalysisData, BarPlotType
 
 menu = [("PacBio 1", "pacbio_m54238_180628_014238"), ("PacBio 2", "pacbio_m54238_180903_015530"),
@@ -12,9 +20,6 @@ menu = [("PacBio 1", "pacbio_m54238_180628_014238"), ("PacBio 2", "pacbio_m54238
         ("Illumina 1", "illumina_D1_S1_L001_R1_001"), ("Nanopore 1", "nanopore_GM24385_3")]
 
 datasets = {
-    #"nanopore_GM24385": AnalysisData("df_output_5_nanopore_nanopore_GM24385_11_batch_1.csv", 5, False, None, ""),  # TEST
-    #"nanopore_GM24385/summary": AnalysisData("sb_analysis_GM24385_3.csv"),  # TEST
-    #"nanopore_test/summary": AnalysisData("sb_analysis_GM24385_111.csv"),  # TEST
     "pacbio_m54238_180628_014238": AnalysisData("data/df_output_m54238_180628_014238.csv"),
     "pacbio_m54238_180628_014238/summary": AnalysisData("data/sb_analysis_m54238_180628_014238.csv"),
     "pacbio_m54238_180903_015530": AnalysisData("data/df_output_m54238_180903_015530.csv"),
@@ -36,94 +41,136 @@ NAME = menu[0][0]
 DATASET = menu[0][1]
 K = 5
 MARGIN = 5
-
-radio_button_group = RadioButtonGroup(labels=["K = 5", "K = 6", "K = 7", "K = 8", "K = 9"], active=0)
-refresh_button = Button(label = "Refresh", button_type = "danger")
-barplot_button_group = RadioButtonGroup(labels=["Reads", "Bases"], active=0)
-margin_slider = Slider(start=1, end=100, value=5, step=1, title="Margin Size (%):")
-lower = datasets[DATASET].bin_lower
-upper = datasets[DATASET].bin_upper
-print(upper, lower)
-
-bin_slider = Slider(start=lower, end=upper, value=lower, step=1, title="Bin")
-
-dropdown = Dropdown(label=NAME, button_type="warning", menu=menu, css_classes=["dropdown"])
-plotter = Plotter(datasets[DATASET + "/summary"], datasets[DATASET])
-dataset_div = Div(text="""<button type="button" style="font-size:110%;background-color:#F0AD4E;border-radius:4px;border:none;text-align: center; line-height: 20px;color:white;font:calibri">    Selected dataset: {}<p/>""".format(menu[0][0]))
-print(sys.getsizeof(plotter))
-
-def on_dropdown_change(event):
-    global DATASET
-    DATASET = event.item
-    global NAME
-    NAME = list(filter(lambda e:e[1]==DATASET,menu))[0][0]
-    dropdown.label = NAME
-    plotter.create_lineplot(datasets[DATASET + "/summary"], new=False)
-    plotter.create_gc_plot(datasets[DATASET], new=False)
-    plotter.create_kmer_plot(datasets[DATASET], K, new=False)
-    print(sys.getsizeof(plotter))
-    if datasets[DATASET].nanopore:
-        print("TRU")
-        global lower, upper
-        lower = datasets[DATASET + "/bins"].bin_lower
-        upper = datasets[DATASET + "/bins"].bin_upper
-        bin_slider.start = lower
-        bin_slider.end = upper
-        bin_slider.value = lower
-
-        plotter.create_ci_plot(datasets[DATASET + "/bins"])
-        plotter.bar_plot(datasets[DATASET + "/bin_stats"], plot_type=BarPlotType.READS)
-        curdoc().remove_root(curdoc().roots[1])
-        curdoc().add_root(column(children=[plotter.ci_plot, row(plotter.barplot,barplot_button_group), plotter.kmer_plot, radio_button_group, bin_slider, refresh_button, plotter.data_table]))
+dropdown = Dropdown(label=NAME, button_type="warning", menu=menu, align='center')
+refresh_button = Button(label="Refresh", button_type="warning")
+radio_button_group = RadioButtonGroup(labels=["K = 5", "K = 6", "K = 7", "K = 8", "K = 9"], active=0, button_type="warning", width=800)
+barplot_button_group = RadioButtonGroup(labels=["Reads", "Bases"], active=0, width=200)
 
 
-def radiogroup_click(attr,old,new):
-    switch_k()
-    plotter.create_kmer_plot(datasets[DATASET], K, new=False)
+def modify_doc(doc):
+    doc.clear()
+    doc.theme = Theme(filename="./theme.yml")
 
+    global DATASET, K, NAME, MARGIN
+    lower = datasets[DATASET].bin_lower
+    upper = datasets[DATASET].bin_upper
+    print(upper, lower)
 
-def switch_k():
-    active_radio = radio_button_group.active  ##Getting radio button value
-    global K
-    K = active_radio + 5
-    print("New k ", K)
-    print(sys.getsizeof(plotter))
-    if K != 5:
-        bin_slider.disabled = True
-    else:
-        bin_slider.disabled = False
+    bin_slider = Slider(start=lower, end=upper, value=lower, step=1, title="Bin", bar_color="orange")
+    plotter = Plotter(datasets[DATASET + "/summary"], datasets[DATASET])
 
+    # dataset_div = Div(
+    #     text="""<button type="button" style="font-size:110%;background-color:#F0AD4E;border-radius:4px;border:none;text-align: center; line-height: 20px;color:white;font:calibri">    Selected dataset: {}<p/>""".format(
+    #         menu[0][0]))
 
-def gc_plot_refresh(attr, old, new):
-    print(old, new)
-    print("hello")
+    def on_dropdown_change(event):
 
+        print("dropdown_change")
+        global DATASET, NAME
+        DATASET = event.item
+        NAME = list(filter(lambda e: e[1] == DATASET, menu))[0][0]
+        dropdown.label = NAME
+        plotter.create_lineplot(datasets[DATASET + "/summary"], new=False)
+        plotter.create_gc_plot(datasets[DATASET], new=False)
+        plotter.create_kmer_plot(datasets[DATASET], K, new=False)
+        print(sys.getsizeof(plotter))
+        if datasets[DATASET].nanopore:
+            data = datasets[DATASET + "/bins"]
+            bin_slider.start = data.bin_lower
+            bin_slider.end = data.bin_upper
+            bin_slider.value = data.bin_lower
 
-def bin_slider_change():
-    radio_button_group.active = 0
-    switch_k()
-    print("test change to 5")
-    plotter.create_kmer_plot(datasets[DATASET + "/bins"], K, bin=bin_slider.value, new=False)
+            plotter.create_ci_plot(data)
+            plotter.bar_plot(datasets[DATASET + "/bin_stats"], plot_type=BarPlotType.READS)
+            doc.remove_root(curdoc().roots[1])
+            doc.add_root(column(
+                children=[plotter.ci_plot,Spacer(height=50), plotter.barplot, row(Spacer(width=20), barplot_button_group),Spacer(height=50), column(plotter.kmer_plot,
+                          radio_button_group, bin_slider, refresh_button), plotter.data_table]))
+        else:
+            doc.remove_root(curdoc().roots[1])
+            doc.add_root(column(
+                children=[plotter.kmer_plot, radio_button_group, plotter.data_table]))
 
+    def radiogroup_click(attr, old, new):
+        switch_k()
+        plotter.create_kmer_plot(datasets[DATASET], K, new=False)
 
-def barplot_button_change(attr, old, new):
-    if new == 0:
-        plotter.bar_plot(datasets[DATASET + "/bin_stats"], BarPlotType.READS, new=False)
-    else:
-        plotter.bar_plot(datasets[DATASET + "/bin_stats"], BarPlotType.BASES, new=False)
+    def switch_k():
+        active_radio = radio_button_group.active  ##Getting radio button value
+        global K
+        K = active_radio + 5
+        if K != 5:
+            bin_slider.disabled = True
+        else:
+            bin_slider.disabled = False
 
+    def bin_slider_change():
+        radio_button_group.active = 0
+        switch_k()
+        plotter.create_kmer_plot(datasets[DATASET + "/bins"], K, bin=bin_slider.value, new=False)
 
-plotter.kmer_ds.selected.on_change(
-          "indices", plotter.update_selected
+    def barplot_button_change(attr, old, new):
+        if new == 0:
+            plotter.bar_plot(datasets[DATASET + "/bin_stats"], BarPlotType.READS, new=False)
+        else:
+            plotter.bar_plot(datasets[DATASET + "/bin_stats"], BarPlotType.BASES, new=False)
+
+    plotter.kmer_ds.selected.on_change(
+        "indices", plotter.update_selected
     )
 
-refresh_button.on_click(bin_slider_change)
-barplot_button_group.on_change("active", barplot_button_change)
-dropdown.on_click(on_dropdown_change)
-radio_button_group.on_change("active", radiogroup_click)
-margin_slider.on_change("value", gc_plot_refresh)
+    refresh_button.on_click(bin_slider_change)
+    barplot_button_group.on_change("active", barplot_button_change)
+    dropdown.on_click(on_dropdown_change)
+    radio_button_group.on_change("active", radiogroup_click)
 
-common_plots = column(children=[column(dropdown), plotter.lineplot, plotter.gc_plot])
-kmers = column(children=[column(radio_button_group), plotter.kmer_plot])
-curdoc().add_root(common_plots)
-curdoc().add_root(kmers)
+    common_plots = column(children=[Spacer(height=10),row(Spacer(width=250), dropdown), Spacer(height=10), plotter.lineplot,Spacer(height=50), plotter.gc_plot,Spacer(height=50)])
+    kmers = column(children=[plotter.kmer_plot, radio_button_group, plotter.data_table])
+    doc.add_root(common_plots)
+    doc.add_root(kmers)
+
+
+TEMPLATE_DIR = os.path.abspath('./templates')
+STATIC_DIR = os.path.abspath('./static')
+
+app = Flask(__name__, template_folder=TEMPLATE_DIR, static_folder=STATIC_DIR)
+
+@app.route("/", methods=['GET', 'POST'])
+def home_page():
+    return render_template("index.html", template="Flask", relative_urls=False)
+
+
+@app.route("/analysis", methods=['GET'])
+def analysis_page():
+    script = server_document('http://localhost:5006/bkapp')
+    return render_template("Analysis.html", script=script, template="Flask", relative_urls=False)
+
+
+@app.route("/datasets", methods=['GET', 'POST'])
+def datasets_page():
+    return render_template("Datasets.html", template="Flask", relative_urls=False)
+
+@app.route("/contact", methods=['GET'])
+def contact_page():
+    return render_template("Contact.html", template="Flask", relative_urls=False)
+
+
+@app.route("/about-project", methods=['GET'])
+def project_page():
+    return render_template("About-Project.html", template="Flask", relative_urls=False)
+
+
+def bk_worker():
+    server = Server({'/bkapp': modify_doc}, io_loop=IOLoop(), allow_websocket_origin=["*"])
+    server.start()
+    server.io_loop.start()
+
+
+Thread(target=bk_worker).start()
+
+if __name__ == '__main__':
+    print('Opening single process Flask app with embedded Bokeh application on http://localhost:8000/')
+    print()
+    print('Multiple connections may block the Bokeh app in this configuration!')
+app.run(port=8000)
+
