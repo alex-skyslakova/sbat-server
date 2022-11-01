@@ -130,47 +130,10 @@ def modify_doc(doc):
     doc.add_root(kmers)
 
 
-TEMPLATE_DIR = os.path.abspath('./templates')
-STATIC_DIR = os.path.abspath('./static')
-
-app = Flask(__name__, template_folder=TEMPLATE_DIR, static_folder=STATIC_DIR)
-
-@app.route("/", methods=['GET', 'POST'])
-def home_page():
-    return render_template("index.html", template="Flask", relative_urls=False)
-
-
-@app.route("/analysis", methods=['GET'])
-def analysis_page():
-    script = server_document('http://localhost:5006/bkapp')
-    return render_template("Analysis.html", script=script, template="Flask", relative_urls=False)
-
-
-@app.route("/datasets", methods=['GET', 'POST'])
-def datasets_page():
-    return render_template("Datasets.html", template="Flask", relative_urls=False)
-
-@app.route("/contact", methods=['GET'])
-def contact_page():
-    return render_template("Contact.html", template="Flask", relative_urls=False)
-
-
-@app.route("/about-project", methods=['GET'])
-def project_page():
-    return render_template("About-Project.html", template="Flask", relative_urls=False)
-
-
 def bk_worker():
     server = Server({'/bkapp': modify_doc}, io_loop=IOLoop(), allow_websocket_origin=["*"])
     server.start()
     server.io_loop.start()
 
 
-Thread(target=bk_worker).start()
-
-if __name__ == '__main__':
-    print('Opening single process Flask app with embedded Bokeh application on http://localhost:8000/')
-    print()
-    print('Multiple connections may block the Bokeh app in this configuration!')
-app.run(port=8000)
 
