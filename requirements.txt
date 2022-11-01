@@ -1,6 +1,5 @@
 Bio==1.4.0
 bokeh==2.4.3
 Flask==2.2.2
-Jinja2==2.10.1
 pandas==1.4.2
 tornado==6.1
