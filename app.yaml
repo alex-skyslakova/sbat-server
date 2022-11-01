@@ -7,11 +7,11 @@ handlers:
   script: index.app
 
 libraries:
-- name: Bio
+- name: bio
   version: 1.4.0
 - name: bokeh
   version: 2.4.3
-- name: Flask
+- name: flask
   version: 2.2.2
 - name: pandas
   version: 1.4.2
