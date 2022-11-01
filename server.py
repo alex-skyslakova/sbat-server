@@ -131,7 +131,7 @@ def modify_doc(doc):
 
 
 def bk_worker():
-    server = Server({'https://sbias-analysis.herokuapp.com/bkapp': modify_doc}, io_loop=IOLoop(), allow_websocket_origin=["*"])
+    server = Server({'/bkapp': modify_doc}, io_loop=IOLoop(), allow_websocket_origin=["*"])
     server.start()
     server.io_loop.start()
 
