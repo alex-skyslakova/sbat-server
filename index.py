@@ -12,7 +12,7 @@ STATIC_DIR = os.path.abspath('./static')
 app = Flask(__name__, template_folder=TEMPLATE_DIR, static_folder=STATIC_DIR)
 
 @app.route("/", methods=['GET', 'POST'])
-def home_page():
+def app_page():
     return render_template("index.html", template="Flask", relative_urls=False)
 
 
