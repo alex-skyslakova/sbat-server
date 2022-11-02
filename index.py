@@ -19,9 +19,9 @@ def app_page():
 
 @app.route("/analysis", methods=['GET'])
 def analysis_page():
-    Thread(target=bk_worker).start()
-    script = server_document('http://localhost:{}/bkapp'.format(port))
-    return render_template("Analysis.html", script=script, template="Flask", relative_urls=False)
+    #Thread(target=bk_worker).start()
+    #script = server_document('https://0.0.0.0:{}/bkapp'.format(port))
+    return render_template("Analysis.html", template="Flask", relative_urls=False)
 
 
 @app.route("/datasets", methods=['GET', 'POST'])
@@ -45,5 +45,6 @@ def home_page():
 if __name__ == '__main__':
     print('Opening single process Flask app with embedded Bokeh application on http://localhost:8000/')
     print()
-    #('Multiple connections may block the Bokeh app in this configuration! {} {}'.format(os.environ.get("PORT"),os.environ.get("ADDRESS") ))
+    ('Multiple connections may block the Bokeh app in this configuration! {} {}'.format(os.environ.get("PORT"),os.environ.get("ADDRESS") ))
     app.run()
+
