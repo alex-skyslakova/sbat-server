@@ -3,6 +3,7 @@ from threading import Thread
 
 from bokeh.embed import server_document
 from flask import Flask, render_template
+from tornado import process
 
 from server import bk_worker
 
@@ -10,7 +11,7 @@ TEMPLATE_DIR = os.path.abspath('./templates')
 STATIC_DIR = os.path.abspath('./static')
 
 app = Flask(__name__, template_folder=TEMPLATE_DIR, static_folder=STATIC_DIR)
-
+port = os.environ.get('PORT', 5006)
 @app.route("/", methods=['GET', 'POST'])
 def app_page():
     return render_template("index.html", template="Flask", relative_urls=False)
@@ -19,7 +20,7 @@ def app_page():
 @app.route("/analysis", methods=['GET'])
 def analysis_page():
     Thread(target=bk_worker).start()
-    script = server_document('http://localhost:5006/bkapp')
+    script = server_document('http://localhost:{}/bkapp'.format(port))
     return render_template("Analysis.html", script=script, template="Flask", relative_urls=False)
 
 
