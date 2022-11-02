@@ -30,6 +30,7 @@ def analysis_page():
 def datasets_page():
     return render_template("Datasets.html", template="Flask", relative_urls=False)
 
+
 @app.route("/contact", methods=['GET'])
 def contact_page():
     return render_template("Contact.html", template="Flask", relative_urls=False)
