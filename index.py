@@ -45,5 +45,5 @@ def home_page():
 if __name__ == '__main__':
     print('Opening single process Flask app with embedded Bokeh application on http://localhost:8000/')
     print()
-    print('Multiple connections may block the Bokeh app in this configuration!')
+    #('Multiple connections may block the Bokeh app in this configuration! {} {}'.format(os.environ.get("PORT"),os.environ.get("ADDRESS") ))
     app.run()
