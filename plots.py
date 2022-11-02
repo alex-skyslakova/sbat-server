@@ -114,8 +114,6 @@ class Plotter:
         return self.lineplot
 
     def create_gc_plot(self, data: AnalysisData, margin=5, new=True):
-        #(data.dataset)
-        #print(data.dataset)
         try:
             gc_data = utils.calculate_gc_plot_data(data.df, margin)
         except Exception:
@@ -212,24 +210,10 @@ class Plotter:
             )
         )
 
-        if bin is not None:  # TODO
+        if bin is not None:
             if self.ci_plot is None:
                 self.create_ci_plot(data, new=new)
-
-            # df = data.df[data.df.bin == bin].copy()
-            #
-            # df["more_freq_count"] = df.apply(lambda row: utils.select_more_frequent(row),
-            #                                  axis=1)
-            # # get more frequent out of k-mer and its rev. complement
-            # df = df.sort_values(by=['more_freq_count'], ascending=False)
-            # df["index"] = range(1, len(df) + 1)
             self.kmer_df = data.df[data.df.bin == bin].copy()
-
-            # self.kmer_df["more_freq_count"] = self.kmer_df.apply(lambda row: utils.select_more_frequent(row),
-            #                                  axis=1)
-            # # get more frequent out of k-mer and its rev. complement
-            # self.kmer_df = self.kmer_df.sort_values(by=['more_freq_count'], ascending=False)
-            # self.kmer_df["index"] = range(1, len(self.kmer_df) + 1)
         else:
             self.kmer_df = data.df[data.df.k == K].copy()
 
@@ -237,8 +221,6 @@ class Plotter:
                                                              axis=1)
         # get more frequent out of k-mer and its rev. complement
         self.kmer_df = self.kmer_df.sort_values(by=['more_freq_count'], ascending=False, ignore_index=True)
-        #self.kmer_df["index"] = range(1, len(self.kmer_df) + 1)
-        ##self.kmer_df.reset_index()
         self.kmer_ds.data = self.kmer_df
         self.kmer_plot.circle(
             "index",
@@ -275,7 +257,6 @@ class Plotter:
             self.ci_plot.circle(x=bin, y=valid_mean, color='#f44336')
 
         source_error = ColumnDataSource(data=dict(base=base, lower=lower, upper=upper))
-        print(source_error.data)
         self.ci_plot.add_layout(
             Whisker(source=source_error, base="base", upper="upper", lower="lower")
         )
@@ -362,17 +343,8 @@ class Plotter:
         """
         Called upon selecting datapoints from marked anomaly on graph. Function updates
         selected column in dataframe.
-
-        :param attrname:
-        :param old:
-        :param new:
-        :return:
         """
         self.kmer_df["selected"] = False
-        # for index in new:
-        #     df_index = self.kmer_ds.data["index"][index]
-        #     self.kmer_df.at[df_index, "selected"] = True
-        # selected_df = self.kmer_df[self.kmer_df["selected"]]
         selected_df = self.kmer_df.iloc[new]
         self.data_table.source.data = selected_df
 
@@ -381,8 +353,6 @@ class Plotter:
         Is triggered by pushing download button. Saves dataframe to ./labeled folder
         under loaded file filename + "-labeled.csv" extension. Filters dataframe
         according to "days to download" field.
-
-        :return:
         """
 
         download_df = self.kmer_vs_sb_df[self.kmer_vs_sb_df["selected"]]

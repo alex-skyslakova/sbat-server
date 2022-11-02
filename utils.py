@@ -29,8 +29,6 @@ def calculate_gc_plot_data(df_all, margin):
     if df_all is None:
         return None
     data = CalculatedGCData()
-    #print(df_all["k"].unique())
-    #print(df_all["k"])
     for i in df_all["k"].unique():
         df = df_all[df_all["k"] == i]
         if df is None or len(get_n_percent(df, margin).index) == 0:
