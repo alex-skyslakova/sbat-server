@@ -1,18 +1,11 @@
-import os
-import re
 import sys
 
-from bokeh.embed import server_document
 from bokeh.io import curdoc
 from bokeh.layouts import column, row
 from bokeh.models import Dropdown, RadioButtonGroup, Slider, Div, Button, Spacer
-from bokeh.plotting import figure
 from bokeh.server.server import Server
 from bokeh.themes import Theme
-from bokeh.util.browser import view
-from flask import Flask, render_template
 from tornado.ioloop import IOLoop
-from threading import Thread
 from plots import Plotter, AnalysisData, BarPlotType
 
 menu = [("PacBio 1", "pacbio_m54238_180628_014238"), ("PacBio 2", "pacbio_m54238_180903_015530"),
@@ -58,10 +51,6 @@ def modify_doc(doc):
 
     bin_slider = Slider(start=lower, end=upper, value=lower, step=1, title="Bin", bar_color="orange")
     plotter = Plotter(datasets[DATASET + "/summary"], datasets[DATASET])
-
-    # dataset_div = Div(
-    #     text="""<button type="button" style="font-size:110%;background-color:#F0AD4E;border-radius:4px;border:none;text-align: center; line-height: 20px;color:white;font:calibri">    Selected dataset: {}<p/>""".format(
-    #         menu[0][0]))
 
     def on_dropdown_change(event):
 
