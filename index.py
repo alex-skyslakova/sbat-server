@@ -11,7 +11,7 @@ TEMPLATE_DIR = os.path.abspath('./templates')
 STATIC_DIR = os.path.abspath('./static')
 
 app = Flask(__name__, template_folder=TEMPLATE_DIR, static_folder=STATIC_DIR)
-port = os.environ.get('PORT', 5006)
+port = os.environ.get('PORT', 8000)
 @app.route("/", methods=['GET', 'POST'])
 def app_page():
     return render_template("index.html", template="Flask", relative_urls=False)
@@ -46,5 +46,5 @@ if __name__ == '__main__':
     print('Opening single process Flask app with embedded Bokeh application on http://localhost:8000/')
     print()
     ('Multiple connections may block the Bokeh app in this configuration! {} {}'.format(os.environ.get("PORT"),os.environ.get("ADDRESS") ))
-    app.run(port=port, host="0.0.0.0")
+    app.run(port=port, host="0.0.0.0", debug=True)
 
