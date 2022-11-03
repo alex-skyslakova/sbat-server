@@ -8,9 +8,13 @@ from bokeh.themes import Theme
 from tornado.ioloop import IOLoop
 from plots import Plotter, AnalysisData, BarPlotType
 
-menu = [("PacBio 1", "pacbio_m54238_180628_014238"), ("PacBio 2", "pacbio_m54238_180903_015530"),
-        ("PacBio 3", "pacbio_m54238_180901_011437"), ("PacBio 4", "pacbio_m54238_180902_013549"),
-        ("Illumina 1", "illumina_D1_S1_L001_R1_001"), ("Nanopore 1", "nanopore_GM24385_3")]
+menu = [("PacBio m54238_180628_014238", "pacbio_m54238_180628_014238"), ("PacBio m54238_180903_015530", "pacbio_m54238_180903_015530"),
+        ("PacBio m54238_180901_011437", "pacbio_m54238_180901_011437"), ("PacBio m54238_180902_013549", "pacbio_m54238_180902_013549"),
+        ("PacBio m64011_181218_235052", "pacbio_m64011_181218_235052"), ("PacBio m64011_181227_224151", "pacbio_m64011_181227_224151"),
+        ("Illumina D1_S1_L001_R1_001", "illumina_D1_S1_L001_R1_001"),("Illumina D1_S1_L001_R1_002", "illumina_D1_S1_L001_R1_002"),
+        ("Illumina D1_S1_L001_R1_003", "illumina_D1_S1_L001_R1_003"), ("Illumina D1_S1_L001_R1_004", "illumina_D1_S1_L001_R1_004"),
+        ("Illumina MPHG002_S1_L001_R1_001", "illumina_MPHG002_S1_L001_R1_001"), ("Illumina MPHG002_S1_L001_R2_001", "illumina_MPHG002_S1_L001_R2_001"),
+        ("Nanopore 1", "nanopore_GM24385_3")]
 
 datasets = {
     "pacbio_m54238_180628_014238": AnalysisData("data/df_output_m54238_180628_014238.csv"),
@@ -21,8 +25,22 @@ datasets = {
     "pacbio_m54238_180901_011437/summary": AnalysisData("data/sb_analysis_m54238_180901_011437.csv"),
     "pacbio_m54238_180902_013549": AnalysisData("data/df_output_m54238_180902_013549.csv"),
     "pacbio_m54238_180902_013549/summary": AnalysisData("data/sb_analysis_m54238_180902_013549.csv"),
+    "pacbio_m64011_181218_235052": AnalysisData("data/df_output_m64011_181218_235052.csv"),
+    "pacbio_m64011_181218_235052/summary": AnalysisData("data/sb_analysis_m64011_181218_235052.csv"),
+    "pacbio_m64011_181227_224151": AnalysisData("data/df_output_m64011_181227_224151.csv"),
+    "pacbio_m64011_181227_224151/summary": AnalysisData("data/sb_analysis_m64011_181227_224151.csv"),
     "illumina_D1_S1_L001_R1_001": AnalysisData("data/df_output_D1_S1_L001_R1_001.csv"),
     "illumina_D1_S1_L001_R1_001/summary": AnalysisData("data/sb_analysis_D1_S1_L001_R1_001.csv"),
+    "illumina_D1_S1_L001_R1_002": AnalysisData("data/df_output_D1_S1_L001_R1_002.csv"),
+    "illumina_D1_S1_L001_R1_002/summary": AnalysisData("data/sb_analysis_D1_S1_L001_R1_002.csv"),
+    "illumina_D1_S1_L001_R1_003": AnalysisData("data/df_output_D1_S1_L001_R1_003.csv"),
+    "illumina_D1_S1_L001_R1_003/summary": AnalysisData("data/sb_analysis_D1_S1_L001_R1_003.csv"),
+    "illumina_D1_S1_L001_R1_004": AnalysisData("data/df_output_D1_S1_L001_R1_004.csv"),
+    "illumina_D1_S1_L001_R1_004/summary": AnalysisData("data/sb_analysis_D1_S1_L001_R1_004.csv"),
+    "illumina_MPHG002_S1_L001_R1_001": AnalysisData("data/df_output_MPHG002_S1_L001_R1_001.csv"),
+    "illumina_MPHG002_S1_L001_R1_001/summary": AnalysisData("data/sb_analysis_MPHG002_S1_L001_R1_001.csv"),
+    "illumina_MPHG002_S1_L001_R2_001": AnalysisData("data/df_output_MPHG002_S1_L001_R2_001.csv"),
+    "illumina_MPHG002_S1_L001_R2_001/summary": AnalysisData("data/sb_analysis_MPHG002_S1_L001_R2_001.csv"),
     "nanopore_GM24385_3": AnalysisData("data/df_output_nanopore_GM24385_3.csv", nanopore=True),
     "nanopore_GM24385_3/summary": AnalysisData("data/sb_analysis_GM24385_3.csv", nanopore=True),
     "nanopore_GM24385_3/bins": AnalysisData("data/df_output_nanopore_GM24385_3_bins.csv", nanopore=True),
