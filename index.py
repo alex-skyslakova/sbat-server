@@ -47,5 +47,8 @@ def home_page():
 
 
 if __name__ == '__main__':
-    app.run(port=8000)  # host="0.0.0.0" in deployment
+    #app.run(port=8000)  # host="0.0.0.0" in deployment
+    from waitress import serve
+    serve(app, host="0.0.0.0", port=port)
+
 
