@@ -153,7 +153,7 @@ def modify_doc(doc):
     return doc
 
 def deploy(port, host):
-    server = Server({'/': modify_doc}, io_loop=IOLoop(), allow_websocket_origin=[host + ":" + str(port)])
+    server = Server({'/': modify_doc}, io_loop=IOLoop(), allow_websocket_origin=["strand-test.herokuapp.com", host + ":" + str(port)])
     server.start()
     server.io_loop.start()
 
