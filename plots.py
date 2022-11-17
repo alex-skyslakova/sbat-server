@@ -2,14 +2,13 @@ import os
 import statistics
 from enum import Enum
 from math import sqrt
-from typing import List
 
-from bokeh.io import curdoc, show
 from bokeh.models import ColumnDataSource, HoverTool, Whisker, TableColumn, StringFormatter, NumberFormatter, DataTable
 from bokeh.plotting import figure
 
 import utils
 import pandas as pd
+
 
 class BarPlotType(Enum):
     BASES = "Bases"
@@ -25,7 +24,6 @@ class AnalysisData:
         self.bin = bin
 
         if "bins" in dataset and nanopore:
-            print("been there")
             self.bin_lower = self.df.bin.min()
             self.bin_upper = self.df.bin.max()
         else:
@@ -110,7 +108,6 @@ class Plotter:
         self.lineplot.xaxis.axis_label_text_font_size = "15pt"
         self.lineplot.yaxis.axis_label_text_font_size = "15pt"
         self.lineplot.title.text_font_size = "15pt"
-
         return self.lineplot
 
     def create_gc_plot(self, data: AnalysisData, margin=5, new=True):

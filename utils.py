@@ -36,7 +36,6 @@ def calculate_gc_plot_data(df_all, margin):
             continue
         data.kmers.append(i)
         df_head = get_n_percent(df, margin)  # get N percent with the highest bias
-        #print("head is ", df_head)
         data.upper_gc.append(None if len(df_head.index) == 0 else round(df_head["GC_%"].mean(), 2))
         data.upper_biases.append(None if len(df_head.index) == 0 else round(df_head["strand_bias_%"].mean(), 2))
 
@@ -64,3 +63,48 @@ def select_more_frequent(row, seq=False):
         if seq:
             return row["rev_complement"]
         return row["rev_complement_count"]
+
+# from Bio import SeqIO
+# all = []
+# for i in range(0, 71):
+#     try:
+#         f = r"D:\Alex\School\sbapr\data_all\nano_2\dump\df_output_5_nanopore_GM24385_2_batch_{}.csv".format(i)
+#         df = pd.read_csv(f)
+#         df["bin"] = [i for x in range(len(df))]
+#         all.append(df)
+#     except Exception:
+#         pass
+#
+# final = pd.concat(all)
+# final.reset_index()
+# final.to_csv("data\df_output_nanopore_GM24385_2_bins.csv")
+# reads, nucleotides, bin = [], [], []
+# for i in range(0, 71):
+#     try:
+#         bin.append(i)
+#         num = len([1 for line in open(r"D:\Alex\School\out_nano_3\dump\nanopore_GM24385_3_bin_{}.fasta".format(i)) if line.startswith(">")])
+#         nucl = []
+#         reads.append(num)
+#
+#         records = SeqIO.parse(r"D:\Alex\School\out_nano_3\dump\nanopore_GM24385_3_bin_{}.fasta".format(i), "fasta")
+#         nucleos = 0
+#         for j, seq_record in enumerate(records):
+#             nucleos += len(seq_record.seq)
+#         nucleotides.append(nucleos)
+#
+#     except Exception:
+#         reads.append(None)
+#         nucleotides.append(None)
+# # print(reads, nucleotides)
+# df = pd.DataFrame(list(zip(reads, nucleotides, bin)), columns=["bin", "reads", "bases"], index=None)
+# df.to_csv("data/nanopore_GM24385_3_bin_stats.csv")
+#
+# all = []
+# for i in range(5, 10):
+#     df = pd.read_csv("D:\Downloads\out_m64011_181218_235052\dump\df_output_{}_m64011_181218_235052.csv".format(i))
+#     df['k'] = [i for x in range(len(df))]
+#     df = df.reset_index()
+#     all.append(df)
+#
+# final = pd.concat(all)
+# final.to_csv("data\df_output_m64011_181218_235052.csv", index=False)
