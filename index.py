@@ -22,8 +22,8 @@ def app_page():
 @app.route("/analysis", methods=['GET'])
 def analysis_page():
     Thread(target=bk_worker).start()
-    script = server_document('http://localhost:5006/bkapp')
-    return render_template("Analysis.html",script=script, template="Flask", relative_urls=False)
+    #script = server_document('http://localhost:5006/bkapp')
+    return render_template("Analysis.html", template="Flask", relative_urls=False)
 
 
 @app.route("/datasets", methods=['GET', 'POST'])
