@@ -18,6 +18,7 @@ class BarPlotType(Enum):
 
 class AnalysisData:
     def __init__(self, dataset, k=None, nanopore=None, bin=None,bin_total=None, link=None):
+        print("CREATING ANALYSIS DATA")
         self.dataset = dataset
         self.df = pd.read_csv(dataset)
         self.k = k
@@ -36,6 +37,7 @@ class AnalysisData:
 
 class Plotter:
     def __init__(self, data_summary, data):
+        print("CREATING PLOTTER")
         self.lineplot_ids = []
         self.lineplot = None
         self.create_lineplot(data_summary)

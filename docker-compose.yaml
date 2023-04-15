@@ -1,0 +1,9 @@
+
+services:
+  seat-server:
+    build: .
+    container_name: seat-server
+    ports:
+      - "8000:8000"
+      - "5006:5006"
+    command: python -m app
