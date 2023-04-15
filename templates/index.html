@@ -11,10 +11,10 @@
     <script class="u-script" type="text/javascript" src="{{ url_for('static',filename='styles/nicepage.js') }}" defer=""></script>
     <meta name="generator" content="Nicepage 4.19.3, nicepage.com">
     <link id="u-theme-google-font" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i|Open+Sans:300,300i,400,400i,500,500i,600,600i,700,700i,800,800i">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     
     
-    
-    
+
     <script type="application/ld+json">{
 		"@context": "http://schema.org",
 		"@type": "Organization",
@@ -58,7 +58,7 @@
       </div></header>
     <section class="u-clearfix u-palette-3-light-2 u-section-1" id="sec-0fbe">
       <div class="u-clearfix u-sheet u-valign-middle u-sheet-1">
-        <h3 class="u-text u-text-1">Strand bias analysis in NGS data</h3>
+        <h2 class="u-text u-text-1">Strand bias analysis in NGS data</h2>
         <p class="u-text u-text-2">In recent years, next-generation sequencing (NGS) has brought significant progress to genomic research and diagnostics. However, NGS is
 still prone to many errors, and one of them is strand bias. This page provides interactive results of strand bias analysis in datasets of three major sequencing technology companies: Illumina,
 Pacific Biosciences and Oxford Nanopore Technologies.
@@ -68,7 +68,7 @@ Pacific Biosciences and Oxford Nanopore Technologies.
     <section class="u-align-left u-clearfix u-palette-3-light-3 u-section-2" id="sec-64ec">
       <div class="u-clearfix u-sheet u-sheet-1">
         <div class="fr-view u-clearfix u-rich-text u-text u-text-1">
-          <h2 style="text-align: left;">Strand Bias</h2>
+          <h3 style="text-align: left;">Strand Bias</h3>
           <p style="text-align: left;">
             <span style="line-height: 2.0;">
                 Strand bias is a situation when one DNA strand is favoured over the other strand.
@@ -102,31 +102,186 @@ In the interactive plots, strand bias is represented by the ratio of less freque
             <span style="line-height: 2.0;">
                 SB = [(1 − LF/MF) ∗ 100]&nbsp;</span>
           </p>
-          <h2 style="text-align: left;">Results of analysis for different datasets</h2>
+          <h3 style="text-align: left;">Results of analysis for different datasets</h3>
           <p style="text-align: left;">
-            <span style="line-height: 2.0;">Morbi enim nunc faucibus a pellentesque sit amet porttitor. Mattis pellentesque id nibh tortor id aliquet lectus proin nibh. Molestie nunc non blandit massa enim nec dui. Felis imperdiet proin fermentum leo vel orci porta. Natoque penatibus et magnis dis parturient montes nascetur ridiculus mus. Eget sit amet tellus cras adipiscing. Placerat duis ultricies lacus sed turpis tincidunt id aliquet. Vel pretium lectus quam id leo in. Tellus elementum sagittis vitae et leo duis ut diam. A diam maecenas sed enim ut sem viverra aliquet eget. Feugiat nisl pretium fusce id velit ut tortor. Et netus et malesuada fames. Tellus elementum sagittis vitae et leo duis ut diam. Sapien eget mi proin sed libero enim sed faucibus turpis.&nbsp;</span>
+            <span style="line-height: 2.0;">Analysis of strand bias in the datasets has shown that each technology
+is affected by strand bias. Strand bias for k higher than seven starts to drastically increase, as
+can be seen from the randomised dataset plot in Figure 4.1. Therefore,
+in this section, I addressed to results gained for k in the range from 5
+to 7, including. Table 4.1 shows strand bias results for this range for
+one representative dataset of each technology.
+
+
+&nbsp;</span>
           </p>
+            <p style="text-align: left;">
+            <span style="line-height: 2.0;">Out of the three technologies I analysed, PacBio analysis resulted
+in the lowest strand bias levels, with mean strand bias ranging from
+1.86% to 2.14%. The second PacBio dataset had very similar results,
+with a difference of at most 0.03% in both mean and median. The third
+dataset presented slightly higher numbers. Mean strand biases for k
+from 5 to 7 were 1.88%, 2.71% and 4.49%. &nbsp;</span>
+          </p>
+            <p style="text-align: left;">
+            <span style="line-height: 2.0;">Illumina presented slightly higher levels of strand bias, having
+strand bias from 2.98% to 3.94% among a selected range of k. Two control datasets presented similar values with a difference of at most
+0.3% from the first dataset in both mean and median.
+
+
+&nbsp;</span>
+          </p>
+            <p style="text-align: left;">
+            <span style="line-height: 2.0;">Results of Nanopore analysis have shown significantly higher
+strand bias than the previous technologies had. With strand bias levels
+from 15.4 to 19.8 in the selected range of, it is more than three times
+higher compared to Illumina. The second dataset containing three
+runs presented slightly lower bias levels, with mean strand bias from
+12.35% to 16.45%. However, third dataset resulted in strand bias in
+range from 25.71% to 30.82%. Statistical significance and comparation
+of results among representants of each technology using Statistica is
+briefly commented in Appendix C.&nbsp;</span>
+          </p>
+            <p style="text-align: left;">
+            <span style="line-height: 2.0;">In conclusion, while results of PacBio and Illumina are relatively
+small and homogenous among datasets, Nanopore presented strand
+bias of much higher levels and different ranges among all three Nanopore
+datasets.&nbsp;</span>
+          </p>
+            <p style="text-align: left;">
+            <span style="line-height: 2.0;">&nbsp;</span>
+          </p>
+            <style type="text/css">
+.tg  {border:none;border-collapse:collapse;border-color:#ccc;border-spacing:0;}
+.tg td{background-color:#fff;border-color:#ccc;border-style:solid;border-width:0px;color:#333;
+  font-family:Arial, sans-serif;font-size:14px;overflow:hidden;padding:5px 15px;word-break:normal;}
+.tg th{background-color:#f0f0f0;border-color:#ccc;border-style:solid;border-width:0px;color:#333;
+  font-family:Arial, sans-serif;font-size:14px;font-weight:normal;overflow:hidden;padding:5px 15px;word-break:normal;}
+.tg .tg-3usy{background-color:##fef9e6;border-color:#f9e79b;text-align:center;vertical-align:middle}
+.tg .tg-4ebj{background-color:#fef9e6;border-color:#f9e79b;text-align:center;vertical-align:middle}
+.tg .tg-vaw9{background-color:#f9e79b;border-color:#f9e79b;text-align:left;vertical-align:middle}
+.tg .tg-axn2{background-color:#f9e79b;border-color:#f9e79b;text-align:center;vertical-align:middle}
+.tg .tg-bh5n{background-color:#f9e79b;border-color:#f9e79b;text-align:center;vertical-align:middle}
+</style>
+<table class="tg" align="center">
+<thead>
+  <tr>
+    <th class="tg-vaw9">Dataset</th>
+    <th class="tg-vaw9">\emph{k}</th>
+    <th class="tg-vaw9">Mean</th>
+    <th class="tg-vaw9">Median</th>
+    <th class="tg-vaw9">Modus</th>
+    <th class="tg-vaw9">5th pc.</th>
+    <th class="tg-vaw9">95th pc.</th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    <td class="tg-axn2">PacBio</td>
+    <td class="tg-4ebj">5</td>
+    <td class="tg-4ebj">1.86</td>
+    <td class="tg-4ebj">1.22</td>
+    <td class="tg-4ebj">0.07</td>
+    <td class="tg-4ebj">0.14</td>
+    <td class="tg-4ebj">4.33</td>
+  </tr>
+  <tr>
+    <td class="tg-bh5n">PacBio</td>
+    <td class="tg-3usy">6</td>
+    <td class="tg-3usy">1.97</td>
+    <td class="tg-3usy">1.36</td>
+    <td class="tg-3usy">0.29</td>
+    <td class="tg-3usy">0.14</td>
+    <td class="tg-3usy">5.28</td>
+  </tr>
+  <tr>
+    <td class="tg-axn2">PacBio</td>
+    <td class="tg-4ebj">7</td>
+    <td class="tg-4ebj">2.14</td>
+    <td class="tg-4ebj">1.5</td>
+    <td class="tg-4ebj">0</td>
+    <td class="tg-4ebj">0.14</td>
+    <td class="tg-4ebj">5.49</td>
+  </tr>
+  <tr>
+    <td class="tg-bh5n">Illumina</td>
+    <td class="tg-3usy">5</td>
+    <td class="tg-3usy">2.98</td>
+    <td class="tg-3usy">2.3</td>
+    <td class="tg-3usy">0.014</td>
+    <td class="tg-3usy">0.28</td>
+    <td class="tg-3usy">7.47</td>
+  </tr>
+  <tr>
+    <td class="tg-axn2">Illumina</td>
+    <td class="tg-4ebj">6</td>
+    <td class="tg-4ebj">3.46</td>
+    <td class="tg-4ebj">2.63</td>
+    <td class="tg-4ebj">2.29</td>
+    <td class="tg-4ebj">0.26</td>
+    <td class="tg-4ebj">9.2</td>
+  </tr>
+  <tr>
+    <td class="tg-bh5n">Illumina</td>
+    <td class="tg-3usy">7</td>
+    <td class="tg-3usy">3.94</td>
+    <td class="tg-3usy">2.94</td>
+    <td class="tg-3usy">0</td>
+    <td class="tg-3usy">0.27</td>
+    <td class="tg-3usy">10.53</td>
+  </tr>
+  <tr>
+    <td class="tg-axn2">Nanopore</td>
+    <td class="tg-4ebj">5</td>
+    <td class="tg-4ebj">15.4</td>
+    <td class="tg-4ebj">12.35</td>
+    <td class="tg-4ebj">22.8</td>
+    <td class="tg-4ebj">1.08</td>
+    <td class="tg-4ebj">42.77</td>
+  </tr>
+  <tr>
+    <td class="tg-bh5n">Nanopore</td>
+    <td class="tg-3usy">6</td>
+    <td class="tg-3usy">17.85</td>
+    <td class="tg-3usy">14.69</td>
+    <td class="tg-3usy">4.1</td>
+    <td class="tg-3usy">1.42</td>
+    <td class="tg-3usy">47.37</td>
+  </tr>
+  <tr>
+    <td class="tg-axn2">Nanopore</td>
+    <td class="tg-4ebj">7</td>
+    <td class="tg-4ebj">19.8</td>
+    <td class="tg-4ebj">16.12</td>
+    <td class="tg-4ebj">4.39</td>
+    <td class="tg-4ebj">1.53</td>
+    <td class="tg-4ebj">51.42</td>
+  </tr>
+</tbody>
+</table>
         </div>
       </div>
     </section>
-    <section class="u-align-left u-clearfix u-palette-3-light-3 u-section-3" id="sec-8043">
-      <div class="u-clearfix u-sheet u-sheet-1"></div>
-    </section>
+<!--    <section class="u-align-left u-clearfix u-palette-3-light-3 u-section-3" id="sec-8043">-->
+<!--      <div class="u-clearfix u-sheet u-sheet-1"></div>-->
+<!--    </section>-->
     
     
-    <footer class="u-align-center u-clearfix u-footer u-palette-3-base u-footer" id="sec-274b"><div class="u-clearfix u-sheet u-sheet-1">
-        <p class="u-small-text u-text u-text-variant u-text-1">Sample text. Click to select the Text Element.</p>
+    <footer class="u-align-center u-clearfix u-footer u-palette-3-base u-footer" id="sec-274b"><div class="u-clearfix u-sheet u-sheet-1" align="center">
+        <p class="u-small-text u-text u-text-variant u-text-1"><span>This webpage was created as a part of the FI MUNI project.<a class="u-link" href="https://www.muni.cz/en/research/projects/67479" >
+      MUNI/33/0765/2022</a></span></p>
       </div></footer>
     <section class="u-backlink u-clearfix u-grey-80">
-      <a class="u-link" href="https://nicepage.com/website-templates" target="_blank">
-        <span>Website Templates</span>
-      </a>
       <p class="u-text">
-        <span>created with</span>
+        <span style="font-size:15px;">&copy; Alexandra Skyslakova  </span>&nbsp
       </p>
-      <a class="u-link" href="" target="_blank">
-        <span>Website Builder Software</span>
-      </a>. 
+        <p>
+          <span style="font-size:15px;"><i class="fa fa-envelope" style="font-size:15px;color:white"></i>  alexandra.skyslakova@gmail.com </span>&nbsp
+
+        </p>
+        <p>
+          <a href="https://github.com/alex-skyslakova"><span style="font-size:15px;"><i class="fa fa-github" style="font-size:15px"></i>  alex-skyslakova</span>
+</a>
+        </p>
     </section>
   
 </body></html>

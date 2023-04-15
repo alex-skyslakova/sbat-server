@@ -12,7 +12,7 @@
     <script class="u-script" type="text/javascript" src="{{ url_for('static',filename='styles/nicepage.js') }}" defer=""></script>
     <meta name="generator" content="Nicepage 4.19.3, nicepage.com">
     <link id="u-theme-google-font" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i|Open+Sans:300,300i,400,400i,500,500i,600,600i,700,700i,800,800i">
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
         <meta charset="utf-8">
         <title>{{ title }}</title>
@@ -73,15 +73,31 @@
             <h2 align="center">Analysis of strand bias in NGS datasets </h2>
         </section>
 <section class="u-clearfix u-palette-3-light-3 u-section-2" id="sec-0fbe2">
-            <div class="container" align="center">
+            <div class="container" align="center" style="min-height:500px">
 
             {{ div|safe }}
             {{ script|safe }}
-
-            <p><a href="{{ url_for('analysis_page') }}">back home</a></p>
+            <h4 align="center">Analysis is currently not available due to maintenance. </h4>
+            <p><a href="{{ url_for('home_page') }}">Back home</a></p>
             </div>
 </section>
+    <footer class="u-align-center u-clearfix u-footer u-palette-3-base u-footer" id="sec-274b"><div class="u-clearfix u-sheet u-sheet-1" align="center">
+        <p class="u-small-text u-text u-text-variant u-text-1"><span>This webpage was created as a part of the FI MUNI project.<a class="u-link" href="https://www.muni.cz/en/research/projects/67479" >
+      MUNI/33/0765/2022</a></span></p>
+      </div></footer>
+    <section class="u-backlink u-clearfix u-grey-80">
+      <p class="u-text">
+        <span style="font-size:15px;">&copy; Alexandra Skyslakova  </span>&nbsp
+      </p>
+        <p>
+          <span style="font-size:15px;"><i class="fa fa-envelope" style="font-size:15px;color:white"></i>  alexandra.skyslakova@gmail.com </span>&nbsp
 
+        </p>
+        <p>
+          <a href="https://github.com/alex-skyslakova"><span style="font-size:15px;"><i class="fa fa-github" style="font-size:15px"></i>  alex-skyslakova</span>
+</a>
+        </p>
+    </section>
 
 
     </body>
